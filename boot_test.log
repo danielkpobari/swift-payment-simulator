@@ -1,0 +1,194 @@
+[INFO] Scanning for projects...
+[INFO] 
+[INFO] ------------< com.baghadom:cross-border-payment-simulator >-------------
+[INFO] Building  0.0.1-SNAPSHOT
+[INFO]   from pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] >>> spring-boot:4.0.5:run (default-cli) > test-compile @ cross-border-payment-simulator >>>
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ cross-border-payment-simulator ---
+[INFO] Copying 1 resource from src\main\resources to target\classes
+[INFO] Copying 2 resources from src\main\resources to target\classes
+[INFO] 
+[INFO] --- compiler:3.14.1:compile (default-compile) @ cross-border-payment-simulator ---
+[INFO] Recompiling the module because of changed source code.
+[INFO] Compiling 31 source files with javac [debug parameters release 17] to target\classes
+[INFO] Annotation processing is enabled because one or more processors were found
+  on the class path. A future release of javac may disable annotation processing
+  unless at least one processor is specified by name (-processor), or a search
+  path is specified (--processor-path, --processor-module-path), or annotation
+  processing is enabled explicitly (-proc:only, -proc:full).
+  Use -Xlint:-options to suppress this message.
+  Use -proc:none to disable annotation processing.
+[INFO] 
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ cross-border-payment-simulator ---
+[INFO] skip non existing resourceDirectory c:\Users\Daniel Kpobari\Documents\cross-border-payment-simulator\cross-border-payment-simulator\src\test\resources
+[INFO] 
+[INFO] --- compiler:3.14.1:testCompile (default-testCompile) @ cross-border-payment-simulator ---
+[INFO] Recompiling the module because of changed dependency.
+[INFO] Compiling 1 source file with javac [debug parameters release 17] to target\test-classes
+[INFO] Annotation processing is enabled because one or more processors were found
+  on the class path. A future release of javac may disable annotation processing
+  unless at least one processor is specified by name (-processor), or a search
+  path is specified (--processor-path, --processor-module-path), or annotation
+  processing is enabled explicitly (-proc:only, -proc:full).
+  Use -Xlint:-options to suppress this message.
+  Use -proc:none to disable annotation processing.
+[INFO] 
+[INFO] <<< spring-boot:4.0.5:run (default-cli) < test-compile @ cross-border-payment-simulator <<<
+[INFO] 
+[INFO] 
+[INFO] --- spring-boot:4.0.5:run (default-cli) @ cross-border-payment-simulator ---
+[INFO] Attaching agents: []
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::                (v4.0.5)
+
+2026-04-03T04:37:53.010+01:00  INFO 12852 --- [cross-border-payment-simulator] [           main] c.CrossBorderPaymentSimulatorApplication : Starting CrossBorderPaymentSimulatorApplication using Java 21.0.5 with PID 12852 (C:\Users\Daniel Kpobari\Documents\cross-border-payment-simulator\cross-border-payment-simulator\target\classes started by Daniel Kpobari in c:\Users\Daniel Kpobari\Documents\cross-border-payment-simulator\cross-border-payment-simulator)
+2026-04-03T04:37:53.014+01:00  INFO 12852 --- [cross-border-payment-simulator] [           main] c.CrossBorderPaymentSimulatorApplication : No active profile set, falling back to 1 default profile: "default"
+2026-04-03T04:37:53.509+01:00  INFO 12852 --- [cross-border-payment-simulator] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-04-03T04:37:53.565+01:00  INFO 12852 --- [cross-border-payment-simulator] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 49 ms. Found 7 JPA repository interfaces.
+2026-04-03T04:37:53.922+01:00  INFO 12852 --- [cross-border-payment-simulator] [           main] o.s.boot.tomcat.TomcatWebServer          : Tomcat initialized with port 8080 (http)
+2026-04-03T04:37:53.931+01:00  INFO 12852 --- [cross-border-payment-simulator] [           main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2026-04-03T04:37:53.932+01:00  INFO 12852 --- [cross-border-payment-simulator] [           main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/11.0.20]
+2026-04-03T04:37:53.968+01:00  INFO 12852 --- [cross-border-payment-simulator] [           main] b.w.c.s.WebApplicationContextInitializer : Root WebApplicationContext: initialization completed in 912 ms
+2026-04-03T04:37:54.076+01:00  INFO 12852 --- [cross-border-payment-simulator] [           main] org.hibernate.orm.jpa                    : HHH008540: Processing PersistenceUnitInfo [name: default]
+2026-04-03T04:37:54.107+01:00  INFO 12852 --- [cross-border-payment-simulator] [           main] org.hibernate.orm.core                   : HHH000001: Hibernate ORM core version 7.2.7.Final
+2026-04-03T04:37:54.401+01:00  INFO 12852 --- [cross-border-payment-simulator] [           main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-04-03T04:37:54.422+01:00  INFO 12852 --- [cross-border-payment-simulator] [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2026-04-03T04:37:54.531+01:00  INFO 12852 --- [cross-border-payment-simulator] [           main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection conn0: url=jdbc:h2:mem:paymentdb user=SA
+2026-04-03T04:37:54.532+01:00  INFO 12852 --- [cross-border-payment-simulator] [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2026-04-03T04:37:54.546+01:00  WARN 12852 --- [cross-border-payment-simulator] [           main] org.hibernate.orm.deprecation            : HHH90000025: H2Dialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2026-04-03T04:37:54.559+01:00  INFO 12852 --- [cross-border-payment-simulator] [           main] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [jdbc:h2:mem:paymentdb]
+	Database driver: H2 JDBC Driver
+	Database dialect: H2Dialect
+	Database version: 2.4.240
+	Default catalog/schema: PAYMENTDB/PUBLIC
+	Autocommit mode: undefined/unknown
+	Isolation level: READ_COMMITTED [default READ_COMMITTED]
+	JDBC fetch size: 100
+	Pool: DataSourceConnectionProvider
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-04-03T04:37:55.261+01:00  INFO 12852 --- [cross-border-payment-simulator] [           main] org.hibernate.orm.core                   : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-04-03T04:37:55.299+01:00  INFO 12852 --- [cross-border-payment-simulator] [           main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-04-03T04:37:55.380+01:00  INFO 12852 --- [cross-border-payment-simulator] [           main] o.s.d.j.r.query.QueryEnhancerFactories   : Hibernate is in classpath; If applicable, HQL parser will be used.
+2026-04-03T04:37:55.817+01:00  WARN 12852 --- [cross-border-payment-simulator] [           main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-04-03T04:37:55.883+01:00  INFO 12852 --- [cross-border-payment-simulator] [           main] o.s.b.w.a.WelcomePageHandlerMapping      : Adding welcome page: class path resource [static/index.html]
+2026-04-03T04:37:56.169+01:00  INFO 12852 --- [cross-border-payment-simulator] [           main] o.s.m.s.b.SimpleBrokerMessageHandler     : Starting...
+2026-04-03T04:37:56.170+01:00  INFO 12852 --- [cross-border-payment-simulator] [           main] o.s.m.s.b.SimpleBrokerMessageHandler     : BrokerAvailabilityEvent[available=true, SimpleBrokerMessageHandler [org.springframework.messaging.simp.broker.DefaultSubscriptionRegistry@472dc215]]
+2026-04-03T04:37:56.170+01:00  INFO 12852 --- [cross-border-payment-simulator] [           main] o.s.m.s.b.SimpleBrokerMessageHandler     : Started.
+2026-04-03T04:37:56.201+01:00  INFO 12852 --- [cross-border-payment-simulator] [           main] o.s.boot.tomcat.TomcatWebServer          : Tomcat started on port 8080 (http) with context path '/'
+2026-04-03T04:37:56.208+01:00  INFO 12852 --- [cross-border-payment-simulator] [           main] c.CrossBorderPaymentSimulatorApplication : Started CrossBorderPaymentSimulatorApplication in 3.544 seconds (process running for 3.844)
+2026-04-03T04:37:56.392+01:00  INFO 12852 --- [cross-border-payment-simulator] [MessageBroker-2] c.b.c.service.ArbitrageEngine            : Arbitrage detected: USD→EUR→GBP→USD | profit: 0.482400%
+2026-04-03T04:38:01.217+01:00  INFO 12852 --- [cross-border-payment-simulator] [MessageBroker-6] c.b.c.service.ArbitrageEngine            : Arbitrage detected: USD→EUR→GBP→USD | profit: 0.545900%
+2026-04-03T04:38:11.225+01:00  INFO 12852 --- [cross-border-payment-simulator] [essageBroker-11] c.b.c.service.ArbitrageEngine            : Arbitrage detected: USD→GBP→EUR→USD | profit: 0.280000%
+2026-04-03T04:38:16.226+01:00  INFO 12852 --- [cross-border-payment-simulator] [MessageBroker-9] c.b.c.service.ArbitrageEngine            : Arbitrage detected: USD→GBP→EUR→USD | profit: 1.200000%
+2026-04-03T04:38:31.230+01:00  INFO 12852 --- [cross-border-payment-simulator] [MessageBroker-5] c.b.c.service.ArbitrageEngine            : Arbitrage detected: USD→GBP→EUR→USD | profit: 2.120000%
+2026-04-03T04:38:36.219+01:00  INFO 12852 --- [cross-border-payment-simulator] [MessageBroker-7] c.b.c.service.ArbitrageEngine            : Arbitrage detected: USD→GBP→EUR→USD | profit: 1.232000%
+2026-04-03T04:38:41.221+01:00  INFO 12852 --- [cross-border-payment-simulator] [essageBroker-10] c.b.c.service.ArbitrageEngine            : Arbitrage detected: USD→GBP→EUR→USD | profit: 0.344000%
+2026-04-03T04:38:46.216+01:00  INFO 12852 --- [cross-border-payment-simulator] [MessageBroker-4] c.b.c.service.ArbitrageEngine            : Arbitrage detected: USD→EUR→GBP→USD | profit: 0.390400%
+2026-04-03T04:38:46.225+01:00  INFO 12852 --- [cross-border-payment-simulator] [MessageBroker-4] c.b.c.service.ArbitrageEngine            : Arbitrage detected: USD→GBP→EUR→USD | profit: 2.497400%
+2026-04-03T04:38:51.236+01:00  INFO 12852 --- [cross-border-payment-simulator] [MessageBroker-1] c.b.c.service.ArbitrageEngine            : Arbitrage detected: USD→GBP→EUR→USD | profit: 1.598300%
+2026-04-03T04:38:56.173+01:00  INFO 12852 --- [cross-border-payment-simulator] [MessageBroker-5] o.s.w.s.c.WebSocketMessageBrokerStats    : WebSocketSession[0 current WS(0)-HttpStream(0)-HttpPoll(0), 0 total, 0 closed abnormally (0 connect failure, 0 send limit, 0 transport error)], stompSubProtocol[processed CONNECT(0)-CONNECTED(0)-DISCONNECT(0)], stompBrokerRelay[null], inboundChannel[pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 0], outboundChannel[pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 0], sockJsScheduler[pool size = 12, active threads = 1, queued tasks = 3, completed tasks = 54]
+2026-04-03T04:38:56.217+01:00  INFO 12852 --- [cross-border-payment-simulator] [MessageBroker-2] c.b.c.service.ArbitrageEngine            : Arbitrage detected: USD→GBP→EUR→USD | profit: 2.497400%
+2026-04-03T04:39:01.221+01:00  INFO 12852 --- [cross-border-payment-simulator] [essageBroker-12] c.b.c.service.ArbitrageEngine            : Arbitrage detected: USD→EUR→GBP→USD | profit: 0.850400%
+2026-04-03T04:39:01.226+01:00  INFO 12852 --- [cross-border-payment-simulator] [essageBroker-12] c.b.c.service.ArbitrageEngine            : Arbitrage detected: USD→GBP→EUR→USD | profit: 2.497400%
+2026-04-03T04:39:06.215+01:00  INFO 12852 --- [cross-border-payment-simulator] [MessageBroker-8] c.b.c.service.ArbitrageEngine            : Arbitrage detected: USD→EUR→GBP→USD | profit: 2.755700%
+2026-04-03T04:39:06.215+01:00  INFO 12852 --- [cross-border-payment-simulator] [MessageBroker-8] c.b.c.service.ArbitrageEngine            : Arbitrage detected: USD→GBP→EUR→USD | profit: 0.344000%
+2026-04-03T04:39:11.220+01:00  INFO 12852 --- [cross-border-payment-simulator] [MessageBroker-6] c.b.c.service.ArbitrageEngine            : Arbitrage detected: USD→EUR→GBP→USD | profit: 2.009600%
+2026-04-03T04:39:16.224+01:00  INFO 12852 --- [cross-border-payment-simulator] [essageBroker-10] c.b.c.service.ArbitrageEngine            : Arbitrage detected: USD→EUR→GBP→USD | profit: 3.987600%
+2026-04-03T04:39:21.225+01:00  INFO 12852 --- [cross-border-payment-simulator] [MessageBroker-9] c.b.c.service.ArbitrageEngine            : Arbitrage detected: USD→EUR→GBP→USD | profit: 4.290200%
+2026-04-03T04:39:21.230+01:00  INFO 12852 --- [cross-border-payment-simulator] [MessageBroker-9] c.b.c.service.ArbitrageEngine            : Arbitrage detected: USD→GBP→EUR→USD | profit: 0.344000%
+2026-04-03T04:39:26.215+01:00  INFO 12852 --- [cross-border-payment-simulator] [MessageBroker-5] c.b.c.service.ArbitrageEngine            : Arbitrage detected: USD→EUR→GBP→USD | profit: 6.248200%
+2026-04-03T04:39:31.226+01:00  INFO 12852 --- [cross-border-payment-simulator] [MessageBroker-2] c.b.c.service.ArbitrageEngine            : Arbitrage detected: USD→EUR→GBP→USD | profit: 8.224000%
+2026-04-03T04:39:36.216+01:00  INFO 12852 --- [cross-border-payment-simulator] [MessageBroker-3] c.b.c.service.ArbitrageEngine            : Arbitrage detected: USD→EUR→GBP→USD | profit: 8.224000%
+2026-04-03T04:39:41.218+01:00  INFO 12852 --- [cross-border-payment-simulator] [MessageBroker-1] c.b.c.service.ArbitrageEngine            : Arbitrage detected: USD→EUR→GBP→USD | profit: 7.008000%
+2026-04-03T04:39:46.219+01:00  INFO 12852 --- [cross-border-payment-simulator] [MessageBroker-9] c.b.c.service.ArbitrageEngine            : Arbitrage detected: USD→EUR→GBP→USD | profit: 7.084800%
+2026-04-03T04:39:51.215+01:00  INFO 12852 --- [cross-border-payment-simulator] [MessageBroker-1] c.b.c.service.ArbitrageEngine            : Arbitrage detected: USD→EUR→GBP→USD | profit: 7.921400%
+2026-04-03T04:39:56.226+01:00  INFO 12852 --- [cross-border-payment-simulator] [MessageBroker-6] c.b.c.service.ArbitrageEngine            : Arbitrage detected: USD→EUR→GBP→USD | profit: 7.921400%
+2026-04-03T04:40:01.219+01:00  INFO 12852 --- [cross-border-payment-simulator] [MessageBroker-1] c.b.c.service.ArbitrageEngine            : Arbitrage detected: USD→EUR→GBP→USD | profit: 8.758000%
+2026-04-03T04:40:06.209+01:00  INFO 12852 --- [cross-border-payment-simulator] [MessageBroker-9] c.b.c.service.ArbitrageEngine            : Arbitrage detected: USD→EUR→GBP→USD | profit: 10.295000%
+2026-04-03T04:40:11.216+01:00  INFO 12852 --- [cross-border-payment-simulator] [MessageBroker-1] c.b.c.service.ArbitrageEngine            : Arbitrage detected: USD→EUR→GBP→USD | profit: 9.363200%
+2026-04-03T04:40:16.219+01:00  INFO 12852 --- [cross-border-payment-simulator] [MessageBroker-6] c.b.c.service.ArbitrageEngine            : Arbitrage detected: USD→EUR→GBP→USD | profit: 6.172000%
+2026-04-03T04:40:21.208+01:00  INFO 12852 --- [cross-border-payment-simulator] [MessageBroker-5] c.b.c.service.ArbitrageEngine            : Arbitrage detected: USD→EUR→GBP→USD | profit: 5.336000%
+2026-04-03T04:40:26.215+01:00  INFO 12852 --- [cross-border-payment-simulator] [essageBroker-11] c.b.c.service.ArbitrageEngine            : Arbitrage detected: USD→EUR→GBP→USD | profit: 5.600000%
+2026-04-03T04:40:31.210+01:00  INFO 12852 --- [cross-border-payment-simulator] [MessageBroker-4] c.b.c.service.ArbitrageEngine            : Arbitrage detected: USD→EUR→GBP→USD | profit: 4.755200%
+2026-04-03T04:40:36.215+01:00  INFO 12852 --- [cross-border-payment-simulator] [MessageBroker-6] c.b.c.service.ArbitrageEngine            : Arbitrage detected: USD→EUR→GBP→USD | profit: 4.842000%
+2026-04-03T04:40:41.214+01:00  INFO 12852 --- [cross-border-payment-simulator] [MessageBroker-4] c.b.c.service.ArbitrageEngine            : Arbitrage detected: USD→EUR→GBP→USD | profit: 4.575000%
+2026-04-03T04:40:46.219+01:00  INFO 12852 --- [cross-border-payment-simulator] [MessageBroker-9] c.b.c.service.ArbitrageEngine            : Arbitrage detected: USD→EUR→GBP→USD | profit: 6.875000%
+2026-04-03T04:40:51.208+01:00  INFO 12852 --- [cross-border-payment-simulator] [MessageBroker-2] c.b.c.service.ArbitrageEngine            : Arbitrage detected: USD→EUR→GBP→USD | profit: 8.927000%
+2026-04-03T04:40:56.218+01:00  INFO 12852 --- [cross-border-payment-simulator] [essageBroker-10] c.b.c.service.ArbitrageEngine            : Arbitrage detected: USD→EUR→GBP→USD | profit: 8.062500%
+2026-04-03T04:41:01.216+01:00  INFO 12852 --- [cross-border-payment-simulator] [MessageBroker-2] c.b.c.service.ArbitrageEngine            : Arbitrage detected: USD→EUR→GBP→USD | profit: 7.730000%
+2026-04-03T04:41:01.219+01:00  INFO 12852 --- [cross-border-payment-simulator] [MessageBroker-2] c.b.c.service.ArbitrageEngine            : Arbitrage detected: USD→GBP→EUR→USD | profit: 1.152000%
+2026-04-03T04:41:06.214+01:00  INFO 12852 --- [cross-border-payment-simulator] [MessageBroker-9] c.b.c.service.ArbitrageEngine            : Arbitrage detected: USD→EUR→GBP→USD | profit: 6.875000%
+2026-04-03T04:41:06.216+01:00  INFO 12852 --- [cross-border-payment-simulator] [MessageBroker-9] c.b.c.service.ArbitrageEngine            : Arbitrage detected: USD→GBP→EUR→USD | profit: 1.533500%
+2026-04-03T04:41:11.236+01:00  INFO 12852 --- [cross-border-payment-simulator] [MessageBroker-1] c.b.c.service.ArbitrageEngine            : Arbitrage detected: USD→EUR→GBP→USD | profit: 5.750000%
+2026-04-03T04:41:11.238+01:00  INFO 12852 --- [cross-border-payment-simulator] [MessageBroker-1] c.b.c.service.ArbitrageEngine            : Arbitrage detected: USD→GBP→EUR→USD | profit: 0.650600%
+2026-04-03T04:41:16.224+01:00  INFO 12852 --- [cross-border-payment-simulator] [essageBroker-10] c.b.c.service.ArbitrageEngine            : Arbitrage detected: USD→EUR→GBP→USD | profit: 3.738400%
+2026-04-03T04:41:16.225+01:00  INFO 12852 --- [cross-border-payment-simulator] [essageBroker-10] c.b.c.service.ArbitrageEngine            : Arbitrage detected: USD→GBP→EUR→USD | profit: 1.893200%
+2026-04-03T04:41:21.208+01:00  INFO 12852 --- [cross-border-payment-simulator] [essageBroker-11] c.b.c.service.ArbitrageEngine            : Arbitrage detected: USD→EUR→GBP→USD | profit: 2.572800%
+2026-04-03T04:41:21.209+01:00  INFO 12852 --- [cross-border-payment-simulator] [essageBroker-11] c.b.c.service.ArbitrageEngine            : Arbitrage detected: USD→GBP→EUR→USD | profit: 1.926000%
+2026-04-03T04:41:26.214+01:00  INFO 12852 --- [cross-border-payment-simulator] [MessageBroker-6] c.b.c.service.ArbitrageEngine            : Arbitrage detected: USD→EUR→GBP→USD | profit: 1.807100%
+2026-04-03T04:41:31.219+01:00  INFO 12852 --- [cross-border-payment-simulator] [essageBroker-12] c.b.c.service.ArbitrageEngine            : Arbitrage detected: USD→EUR→GBP→USD | profit: 1.807100%
+2026-04-03T04:41:36.214+01:00  INFO 12852 --- [cross-border-payment-simulator] [MessageBroker-5] c.b.c.service.ArbitrageEngine            : Arbitrage detected: USD→EUR→GBP→USD | profit: 0.712400%
+2026-04-03T04:47:06.218+01:00  INFO 12852 --- [cross-border-payment-simulator] [MessageBroker-2] c.b.c.service.ArbitrageEngine            : Arbitrage detected: USD→EUR→GBP→USD | profit: 0.926000%
+2026-04-03T04:47:11.214+01:00  INFO 12852 --- [cross-border-payment-simulator] [MessageBroker-7] c.b.c.service.ArbitrageEngine            : Arbitrage detected: USD→EUR→GBP→USD | profit: 0.463200%
+2026-04-03T04:47:16.222+01:00  INFO 12852 --- [cross-border-payment-simulator] [MessageBroker-9] c.b.c.service.ArbitrageEngine            : Arbitrage detected: USD→EUR→GBP→USD | profit: 0.845000%
+2026-04-03T04:47:21.223+01:00  INFO 12852 --- [cross-border-payment-simulator] [essageBroker-10] c.b.c.service.ArbitrageEngine            : Arbitrage detected: USD→EUR→GBP→USD | profit: 1.210200%
+2026-04-03T04:47:26.217+01:00  INFO 12852 --- [cross-border-payment-simulator] [MessageBroker-2] c.b.c.service.ArbitrageEngine            : Arbitrage detected: USD→EUR→GBP→USD | profit: 1.965500%
+2026-04-03T04:47:31.210+01:00  INFO 12852 --- [cross-border-payment-simulator] [MessageBroker-5] c.b.c.service.ArbitrageEngine            : Arbitrage detected: USD→EUR→GBP→USD | profit: 1.210200%
+2026-04-03T04:47:36.216+01:00  INFO 12852 --- [cross-border-payment-simulator] [MessageBroker-8] c.b.c.service.ArbitrageEngine            : Arbitrage detected: USD→EUR→GBP→USD | profit: 1.558800%
+2026-04-03T04:47:41.220+01:00  INFO 12852 --- [cross-border-payment-simulator] [MessageBroker-1] c.b.c.service.ArbitrageEngine            : Arbitrage detected: USD→EUR→GBP→USD | profit: 1.558800%
+2026-04-03T04:47:46.207+01:00  INFO 12852 --- [cross-border-payment-simulator] [MessageBroker-2] c.b.c.service.ArbitrageEngine            : Arbitrage detected: USD→EUR→GBP→USD | profit: 2.782400%
+2026-04-03T04:47:51.222+01:00  INFO 12852 --- [cross-border-payment-simulator] [MessageBroker-4] c.b.c.service.ArbitrageEngine            : Arbitrage detected: USD→EUR→GBP→USD | profit: 3.555200%
+2026-04-03T04:47:56.208+01:00  INFO 12852 --- [cross-border-payment-simulator] [essageBroker-12] c.b.c.service.ArbitrageEngine            : Arbitrage detected: USD→EUR→GBP→USD | profit: 2.429600%
+2026-04-03T04:48:01.215+01:00  INFO 12852 --- [cross-border-payment-simulator] [essageBroker-10] c.b.c.service.ArbitrageEngine            : Arbitrage detected: USD→EUR→GBP→USD | profit: 2.429600%
+2026-04-03T04:48:06.220+01:00  INFO 12852 --- [cross-border-payment-simulator] [MessageBroker-7] c.b.c.service.ArbitrageEngine            : Arbitrage detected: USD→EUR→GBP→USD | profit: 2.429600%
+2026-04-03T04:48:11.211+01:00  INFO 12852 --- [cross-border-payment-simulator] [MessageBroker-9] c.b.c.service.ArbitrageEngine            : Arbitrage detected: USD→EUR→GBP→USD | profit: 1.665200%
+2026-04-03T04:48:16.217+01:00  INFO 12852 --- [cross-border-payment-simulator] [MessageBroker-1] c.b.c.service.ArbitrageEngine            : Arbitrage detected: USD→EUR→GBP→USD | profit: 1.304000%
+2026-04-03T04:48:21.216+01:00  INFO 12852 --- [cross-border-payment-simulator] [MessageBroker-6] c.b.c.service.ArbitrageEngine            : Arbitrage detected: USD→EUR→GBP→USD | profit: 0.548000%
+2026-04-03T04:48:26.221+01:00  INFO 12852 --- [cross-border-payment-simulator] [MessageBroker-3] c.b.c.service.ArbitrageEngine            : Arbitrage detected: USD→EUR→GBP→USD | profit: 0.548000%
+2026-04-03T04:48:31.220+01:00  INFO 12852 --- [cross-border-payment-simulator] [MessageBroker-6] c.b.c.service.ArbitrageEngine            : Arbitrage detected: USD→EUR→GBP→USD | profit: 1.304000%
+2026-04-03T04:48:36.207+01:00  INFO 12852 --- [cross-border-payment-simulator] [MessageBroker-2] c.b.c.service.ArbitrageEngine            : Arbitrage detected: USD→EUR→GBP→USD | profit: 2.429600%
+2026-04-03T04:48:41.222+01:00  INFO 12852 --- [cross-border-payment-simulator] [MessageBroker-4] c.b.c.service.ArbitrageEngine            : Arbitrage detected: USD→EUR→GBP→USD | profit: 1.210200%
+2026-04-03T04:48:46.211+01:00  INFO 12852 --- [cross-border-payment-simulator] [MessageBroker-9] c.b.c.service.ArbitrageEngine            : Arbitrage detected: USD→EUR→GBP→USD | profit: 2.429600%
+2026-04-03T04:48:51.220+01:00  INFO 12852 --- [cross-border-payment-simulator] [essageBroker-12] c.b.c.service.ArbitrageEngine            : Arbitrage detected: USD→EUR→GBP→USD | profit: 4.422500%
+2026-04-03T04:48:56.216+01:00  INFO 12852 --- [cross-border-payment-simulator] [MessageBroker-2] c.b.c.service.ArbitrageEngine            : Arbitrage detected: USD→EUR→GBP→USD | profit: 3.555200%
+2026-04-03T04:49:01.208+01:00  INFO 12852 --- [cross-border-payment-simulator] [essageBroker-11] c.b.c.service.ArbitrageEngine            : Arbitrage detected: USD→EUR→GBP→USD | profit: 2.782400%
+2026-04-03T04:49:06.220+01:00  INFO 12852 --- [cross-border-payment-simulator] [MessageBroker-9] c.b.c.service.ArbitrageEngine            : Arbitrage detected: USD→EUR→GBP→USD | profit: 2.009600%
+2026-04-03T04:49:11.220+01:00  INFO 12852 --- [cross-border-payment-simulator] [essageBroker-12] c.b.c.service.ArbitrageEngine            : Arbitrage detected: USD→EUR→GBP→USD | profit: 2.102000%
+2026-04-03T04:49:36.206+01:00  INFO 12852 --- [cross-border-payment-simulator] [essageBroker-12] c.b.c.service.ArbitrageEngine            : Arbitrage detected: USD→EUR→GBP→USD | profit: 2.009600%
+2026-04-03T04:49:41.217+01:00  INFO 12852 --- [cross-border-payment-simulator] [MessageBroker-6] c.b.c.service.ArbitrageEngine            : Arbitrage detected: USD→EUR→GBP→USD | profit: 1.236800%
+2026-04-03T04:49:46.218+01:00  INFO 12852 --- [cross-border-payment-simulator] [essageBroker-10] c.b.c.service.ArbitrageEngine            : Arbitrage detected: USD→EUR→GBP→USD | profit: 1.236800%
+2026-04-03T04:49:51.218+01:00  INFO 12852 --- [cross-border-payment-simulator] [MessageBroker-9] c.b.c.service.ArbitrageEngine            : Arbitrage detected: USD→EUR→GBP→USD | profit: 1.236800%
+2026-04-03T04:49:56.213+01:00  INFO 12852 --- [cross-border-payment-simulator] [MessageBroker-1] c.b.c.service.ArbitrageEngine            : Arbitrage detected: USD→EUR→GBP→USD | profit: 1.236800%
+2026-04-03T04:50:01.217+01:00  INFO 12852 --- [cross-border-payment-simulator] [MessageBroker-9] c.b.c.service.ArbitrageEngine            : Arbitrage detected: USD→EUR→GBP→USD | profit: 0.347000%
+2026-04-03T04:50:06.212+01:00  INFO 12852 --- [cross-border-payment-simulator] [essageBroker-10] c.b.c.service.ArbitrageEngine            : Arbitrage detected: USD→EUR→GBP→USD | profit: 2.206200%
+2026-04-03T04:50:11.223+01:00  INFO 12852 --- [cross-border-payment-simulator] [essageBroker-12] c.b.c.service.ArbitrageEngine            : Arbitrage detected: USD→EUR→GBP→USD | profit: 1.556000%
+2026-04-03T04:50:21.209+01:00  INFO 12852 --- [cross-border-payment-simulator] [essageBroker-12] c.b.c.service.ArbitrageEngine            : Arbitrage detected: USD→EUR→GBP→USD | profit: 0.464000%
+2026-04-03T04:50:26.213+01:00  INFO 12852 --- [cross-border-payment-simulator] [MessageBroker-5] c.b.c.service.ArbitrageEngine            : Arbitrage detected: USD→EUR→GBP→USD | profit: 0.347000%
+2026-04-03T04:57:31.221+01:00  INFO 12852 --- [cross-border-payment-simulator] [MessageBroker-6] c.b.c.service.ArbitrageEngine            : Arbitrage detected: USD→EUR→GBP→USD | profit: 0.237500%
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD FAILURE
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  20:22 min
+[INFO] Finished at: 2026-04-03T04:58:10+01:00
+[INFO] ------------------------------------------------------------------------
+[ERROR] Failed to execute goal org.springframework.boot:spring-boot-maven-plugin:4.0.5:run (default-cli) on project cross-border-payment-simulator: Process terminated with exit code: 1 -> [Help 1]
+[ERROR] 
+[ERROR] To see the full stack trace of the errors, re-run Maven with the -e switch.
+[ERROR] Re-run Maven using the -X switch to enable full debug logging.
+[ERROR] 
+[ERROR] For more information about the errors and possible solutions, please read the following articles:
+[ERROR] [Help 1] http://cwiki.apache.org/confluence/display/MAVEN/MojoExecutionException
+
+c:\Users\Daniel Kpobari\Documents\cross-border-payment-simulator\cross-border-payment-simulator>

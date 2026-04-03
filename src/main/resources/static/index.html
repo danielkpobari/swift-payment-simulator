@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Cross-Border Payment Simulator</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/stompjs@2.3.3/lib/stomp.min.js"></script>
+<style>
+  :root {
+    --bg: #0d1117; --surface: #161b22; --border: #30363d;
+    --accent: #58a6ff; --green: #3fb950; --red: #f85149;
+    --yellow: #d29922; --text: #e6edf3; --muted: #8b949e;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); color: var(--text); font-family: 'Segoe UI', system-ui, sans-serif; font-size: 14px; }
+
+  header {
+    background: var(--surface); border-bottom: 1px solid var(--border);
+    padding: 14px 24px; display: flex; align-items: center; gap: 12px;
+  }
+  header h1 { font-size: 18px; font-weight: 600; }
+  .badge { background: var(--accent); color: #000; font-size: 11px; font-weight: 700;
+           padding: 2px 8px; border-radius: 20px; }
+  .ws-status { margin-left: auto; font-size: 12px; display: flex; align-items: center; gap: 6px; }
+  .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--red); }
+  .dot.connected { background: var(--green); }
+
+  .layout { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; padding: 16px; }
+  .full-width { grid-column: 1 / -1; }
+
+  .card { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 16px; }
+  .card h2 { font-size: 13px; font-weight: 600; color: var(--muted); text-transform: uppercase;
+             letter-spacing: .5px; margin-bottom: 14px; }
+
+  /* Rate ticker */
+  .rate-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 8px; }
+  .rate-tile { background: var(--bg); border: 1px solid var(--border); border-radius: 6px;
+               padding: 10px 12px; }
+  .rate-tile .pair { font-size: 11px; color: var(--muted); }
+  .rate-tile .val { font-size: 18px; font-weight: 700; margin-top: 2px; }
+  .rate-tile .chg { font-size: 11px; margin-top: 2px; }
+  .up { color: var(--green); } .down { color: var(--red); }
+
+  /* Chart */
+  .chart-wrap { position: relative; height: 220px; }
+
+  /* Form */
+  .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  label { font-size: 12px; color: var(--muted); display: block; margin-bottom: 4px; }
+  input, select {
+    width: 100%; background: var(--bg); border: 1px solid var(--border);
+    color: var(--text); border-radius: 6px; padding: 8px 10px; font-size: 13px;
+  }
+  input:focus, select:focus { outline: none; border-color: var(--accent); }
+  .btn {
+    margin-top: 12px; width: 100%; padding: 10px; background: var(--accent);
+    color: #000; font-weight: 700; border: none; border-radius: 6px; cursor: pointer; font-size: 14px;
+  }
+  .btn:hover { opacity: .85; }
+  .btn:disabled { opacity: .4; cursor: not-allowed; }
+
+  /* Response box */
+  #response-box { margin-top: 12px; background: var(--bg); border: 1px solid var(--border);
+                  border-radius: 6px; padding: 12px; font-family: monospace; font-size: 12px;
+                  white-space: pre-wrap; max-height: 200px; overflow-y: auto; display: none; }
+
+  /* Table */
+  table { width: 100%; border-collapse: collapse; font-size: 12px; }
+  th { color: var(--muted); font-weight: 600; text-align: left; padding: 6px 8px;
+       border-bottom: 1px solid var(--border); }
+  td { padding: 7px 8px; border-bottom: 1px solid #21262d; }
+  tr:last-child td { border-bottom: none; }
+  .status-pill { padding: 2px 8px; border-radius: 20px; font-size: 11px; font-weight: 600; }
+  .PENDING  { background: #d2992233; color: var(--yellow); }
+  .SETTLED  { background: #3fb95033; color: var(--green); }
+  .REJECTED { background: #f8514933; color: var(--red); }
+
+  /* SWIFT route */
+  #swift-route { display: flex; align-items: center; gap: 0; flex-wrap: wrap; margin-top: 8px; }
+  .hop { background: var(--bg); border: 1px solid var(--accent); border-radius: 6px;
+         padding: 8px 14px; font-size: 12px; font-weight: 600; }
+  .hop-arrow { color: var(--accent); font-size: 18px; padding: 0 6px; }
+  .hop-msg { font-size: 10px; color: var(--muted); text-align: center; margin-top: 3px; }
+
+  /* Arbitrage */
+  .arb-item { display: flex; justify-content: space-between; align-items: center;
+              padding: 8px 0; border-bottom: 1px solid #21262d; }
+  .arb-item:last-child { border-bottom: none; }
+  .arb-path { font-family: monospace; font-size: 12px; }
+  .arb-profit { font-weight: 700; color: var(--green); }
+
+  /* Nostro table */
+  .nostro-balance { font-weight: 600; }
+
+  /* Tabs */
+  .tabs { display: flex; gap: 4px; margin-bottom: 14px; }
+  .tab { padding: 5px 14px; border-radius: 6px; cursor: pointer; font-size: 12px;
+         border: 1px solid var(--border); color: var(--muted); background: transparent; }
+  .tab.active { background: var(--accent); color: #000; border-color: var(--accent); font-weight: 700; }
+
+  .tab-panel { display: none; }
+  .tab-panel.active { display: block; }
+
+  @media (max-width: 768px) { .layout { grid-template-columns: 1fr; } .form-grid { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+
+<header>
+  <span style="font-size:22px">🌍</span>
+  <h1>Cross-Border Payment Simulator</h1>
+  <span class="badge">SWIFT + ISO 20022</span>
+  <div class="ws-status">
+    <div class="dot" id="ws-dot"></div>
+    <span id="ws-label">Disconnected</span>
+  </div>
+</header>
+
+<div class="layout">
+
+  <!-- Live Rate Tickers -->
+  <div class="card full-width">
+    <h2>📡 Live FX Rates (WebSocket)</h2>
+    <div class="rate-grid" id="rate-grid"></div>
+  </div>
+
+  <!-- Rate Chart -->
+  <div class="card">
+    <h2>📈 Rate Chart</h2>
+    <div style="margin-bottom:10px; display:flex; gap:8px; align-items:center;">
+      <label style="margin:0">Pair:</label>
+      <select id="chart-pair" style="width:auto">
+        <option>NGN_USD</option><option>USD_GBP</option><option>USD_EUR</option>
+        <option>EUR_GBP</option><option>GBP_USD</option><option>EUR_USD</option>
+      </select>
+    </div>
+    <div class="chart-wrap"><canvas id="rateChart"></canvas></div>
+  </div>
+
+  <!-- Send Payment -->
+  <div class="card">
+    <h2>💸 Send Cross-Border Payment</h2>
+    <div class="form-grid">
+      <div>
+        <label>Sender Name</label>
+        <input id="f-sender" value="userA" placeholder="Sender"/>
+      </div>
+      <div>
+        <label>Receiver Name</label>
+        <input id="f-receiver" value="userB" placeholder="Receiver"/>
+      </div>
+      <div>
+        <label>Sender BIC</label>
+        <select id="f-sender-bic">
+          <option value="GTBINGLA">GTBINGLA – GTBank Nigeria</option>
+          <option value="ZENITHNG">ZENITHNG – Zenith Bank</option>
+          <option value="CITIVUS33">CITIVUS33 – Citibank USD</option>
+          <option value="CHASUS33">CHASUS33 – JPMorgan</option>
+        </select>
+      </div>
+      <div>
+        <label>Receiver BIC</label>
+        <select id="f-receiver-bic">
+          <option value="BARCGB22">BARCGB22 – Barclays UK</option>
+          <option value="HSBCGB2L">HSBCGB2L – HSBC UK</option>
+          <option value="DEUTDEDB">DEUTDEDB – Deutsche Bank</option>
+          <option value="BNPAFRPP">BNPAFRPP – BNP Paribas</option>
+        </select>
+      </div>
+      <div>
+        <label>Amount</label>
+        <input id="f-amount" type="number" value="50000" min="1"/>
+      </div>
+      <div>
+        <label>Source Currency</label>
+        <select id="f-src">
+          <option>NGN</option><option>USD</option><option>EUR</option><option>GBP</option>
+        </select>
+      </div>
+      <div>
+        <label>Target Currency</label>
+        <select id="f-tgt">
+          <option>GBP</option><option>USD</option><option>EUR</option><option>NGN</option>
+        </select>
+      </div>
+    </div>
+    <button class="btn" id="send-btn" onclick="sendPayment()">Send Payment →</button>
+    <pre id="response-box"></pre>
+  </div>
+
+  <!-- Transactions + SWIFT -->
+  <div class="card full-width">
+    <div class="tabs">
+      <button class="tab active" onclick="switchTab('txn')">Transactions</button>
+      <button class="tab" onclick="switchTab('swift')">SWIFT Route</button>
+      <button class="tab" onclick="switchTab('nostro')">Nostro / Vostro</button>
+      <button class="tab" onclick="switchTab('arb')">Arbitrage</button>
+    </div>
+
+    <!-- Transactions -->
+    <div class="tab-panel active" id="tab-txn">
+      <table id="txn-table">
+        <thead>
+          <tr>
+            <th>TXN ID</th><th>Sender BIC</th><th>Receiver BIC</th>
+            <th>Amount</th><th>Src</th><th>Tgt</th>
+            <th>FX Rate</th><th>Fee</th><th>Status</th><th>Created</th>
+          </tr>
+        </thead>
+        <tbody id="txn-body"></tbody>
+      </table>
+    </div>
+
+    <!-- SWIFT Route -->
+    <div class="tab-panel" id="tab-swift">
+      <p style="color:var(--muted); font-size:12px; margin-bottom:12px">
+        Select a transaction to visualize its SWIFT message hops.
+      </p>
+      <select id="swift-txn-select" style="width:100%; margin-bottom:14px" onchange="loadSwiftRoute()">
+        <option value="">-- Select Transaction --</option>
+      </select>
+      <div id="swift-route"></div>
+      <div id="swift-messages" style="margin-top:16px"></div>
+    </div>
+
+    <!-- Nostro / Vostro -->
+    <div class="tab-panel" id="tab-nostro">
+      <table>
+        <thead>
+          <tr><th>Owner BIC</th><th>Correspondent BIC</th><th>Currency</th><th>Balance</th><th>Type</th></tr>
+        </thead>
+        <tbody id="nostro-body"></tbody>
+      </table>
+    </div>
+
+    <!-- Arbitrage -->
+    <div class="tab-panel" id="tab-arb">
+      <p style="color:var(--muted); font-size:12px; margin-bottom:12px">
+        Triangular arbitrage opportunities detected in real-time (threshold: 0.1%).
+      </p>
+      <div id="arb-list"></div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+// ─── State ───────────────────────────────────────────────────────────────────
+const rateHistory = {};
+let rateChart, chartPair = 'NGN_USD';
+let stompClient = null;
+
+// ─── WebSocket ────────────────────────────────────────────────────────────────
+function connectWS() {
+  const sock = new SockJS('/ws');
+  stompClient = Stomp.over(sock);
+  stompClient.debug = null;
+  stompClient.connect({}, () => {
+    document.getElementById('ws-dot').classList.add('connected');
+    document.getElementById('ws-label').textContent = 'Live';
+    stompClient.subscribe('/topic/rates', msg => {
+      const data = JSON.parse(msg.body);
+      updateRateTile(data.pair, parseFloat(data.rate));
+      if (data.pair === document.getElementById('chart-pair').value) {
+        pushChartPoint(parseFloat(data.rate));
+      }
+    });
+  }, () => {
+    document.getElementById('ws-dot').classList.remove('connected');
+    document.getElementById('ws-label').textContent = 'Disconnected';
+    setTimeout(connectWS, 3000);
+  });
+}
+
+// ─── Rate Tiles ───────────────────────────────────────────────────────────────
+function updateRateTile(pair, rate) {
+  let tile = document.getElementById('tile-' + pair);
+  const prev = rateHistory[pair]?.at(-1) ?? rate;
+  const chg = ((rate - prev) / prev * 100).toFixed(4);
+  const dir = rate >= prev ? 'up' : 'down';
+
+  if (!tile) {
+    tile = document.createElement('div');
+    tile.className = 'rate-tile';
+    tile.id = 'tile-' + pair;
+    document.getElementById('rate-grid').appendChild(tile);
+  }
+  tile.innerHTML = `
+    <div class="pair">${pair.replace('_', ' / ')}</div>
+    <div class="val ${dir}">${rate.toFixed(6)}</div>
+    <div class="chg ${dir}">${dir === 'up' ? '▲' : '▼'} ${Math.abs(chg)}%</div>`;
+
+  if (!rateHistory[pair]) rateHistory[pair] = [];
+  rateHistory[pair].push(rate);
+  if (rateHistory[pair].length > 60) rateHistory[pair].shift();
+}
+
+// ─── Chart ────────────────────────────────────────────────────────────────────
+function initChart() {
+  const ctx = document.getElementById('rateChart').getContext('2d');
+  rateChart = new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels: [],
+      datasets: [{
+        label: chartPair,
+        data: [],
+        borderColor: '#58a6ff',
+        backgroundColor: 'rgba(88,166,255,0.08)',
+        borderWidth: 2,
+        pointRadius: 0,
+        tension: 0.4,
+        fill: true
+      }]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      animation: false,
+      plugins: { legend: { display: false } },
+      scales: {
+        x: { display: false },
+        y: { ticks: { color: '#8b949e', font: { size: 11 } }, grid: { color: '#21262d' } }
+      }
+    }
+  });
+}
+
+function pushChartPoint(rate) {
+  const ds = rateChart.data;
+  const now = new Date().toLocaleTimeString();
+  ds.labels.push(now);
+  ds.datasets[0].data.push(rate);
+  if (ds.labels.length > 60) { ds.labels.shift(); ds.datasets[0].data.shift(); }
+  rateChart.update('none');
+}
+
+document.getElementById('chart-pair').addEventListener('change', e => {
+  chartPair = e.target.value;
+  rateChart.data.labels = [];
+  rateChart.data.datasets[0].data = [];
+  rateChart.data.datasets[0].label = chartPair;
+  rateChart.update();
+});
+
+// ─── Send Payment ─────────────────────────────────────────────────────────────
+async function sendPayment() {
+  const btn = document.getElementById('send-btn');
+  const box = document.getElementById('response-box');
+  btn.disabled = true;
+  btn.textContent = 'Processing…';
+  box.style.display = 'none';
+
+  const payload = {
+    sender:       document.getElementById('f-sender').value,
+    receiver:     document.getElementById('f-receiver').value,
+    senderBic:    document.getElementById('f-sender-bic').value,
+    receiverBic:  document.getElementById('f-receiver-bic').value,
+    amount:       parseFloat(document.getElementById('f-amount').value),
+    sourceCurrency: document.getElementById('f-src').value,
+    targetCurrency: document.getElementById('f-tgt').value
+  };
+
+  try {
+    const res = await fetch('/api/cross-border/send', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    });
+    const data = await res.json();
+    box.style.display = 'block';
+    if (res.ok) {
+      box.style.color = '#3fb950';
+      box.textContent = JSON.stringify(data, null, 2);
+      addTxnToSelect(data.txnId);
+      loadTransactions();
+      loadNostro();
+    } else {
+      box.style.color = '#f85149';
+      box.textContent = JSON.stringify(data, null, 2);
+    }
+  } catch (e) {
+    box.style.display = 'block';
+    box.style.color = '#f85149';
+    box.textContent = 'Error: ' + e.message;
+  } finally {
+    btn.disabled = false;
+    btn.textContent = 'Send Payment →';
+  }
+}
+
+// ─── Transactions ─────────────────────────────────────────────────────────────
+async function loadTransactions() {
+  const res = await fetch('/api/transactions');
+  const txns = await res.json();
+  const tbody = document.getElementById('txn-body');
+  tbody.innerHTML = '';
+  txns.reverse().forEach(t => {
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td style="font-family:monospace;font-size:11px">${t.id.substring(0,8)}…</td>
+      <td>${t.senderBic ?? '—'}</td>
+      <td>${t.receiverBic ?? '—'}</td>
+      <td>${Number(t.amount).toLocaleString()}</td>
+      <td>${t.sourceCurrency}</td>
+      <td>${t.targetCurrency}</td>
+      <td>${Number(t.fxRate).toFixed(6)}</td>
+      <td>${Number(t.fee).toFixed(2)}</td>
+      <td><span class="status-pill ${t.status}">${t.status}</span></td>
+      <td style="color:var(--muted)">${new Date(t.createdAt).toLocaleTimeString()}</td>`;
+    tbody.appendChild(tr);
+  });
+}
+
+// ─── SWIFT Route ──────────────────────────────────────────────────────────────
+function addTxnToSelect(txnId) {
+  const sel = document.getElementById('swift-txn-select');
+  const opt = document.createElement('option');
+  opt.value = txnId;
+  opt.textContent = txnId.substring(0, 18) + '…';
+  sel.appendChild(opt);
+  sel.value = txnId;
+}
+
+async function loadSwiftRoute() {
+  const txnId = document.getElementById('swift-txn-select').value;
+  if (!txnId) return;
+  const res = await fetch('/api/swift/' + txnId);
+  const msgs = await res.json();
+
+  // Build hop chain from unique BIC sequence
+  const routeDiv = document.getElementById('swift-route');
+  const msgDiv = document.getElementById('swift-messages');
+  routeDiv.innerHTML = '';
+  msgDiv.innerHTML = '';
+
+  const seen = [];
+  msgs.forEach(m => {
+    if (!seen.includes(m.senderBic)) seen.push(m.senderBic);
+    if (!seen.includes(m.receiverBic)) seen.push(m.receiverBic);
+  });
+
+  seen.forEach((bic, i) => {
+    const hop = document.createElement('div');
+    hop.innerHTML = `<div class="hop">${bic}</div>`;
+    routeDiv.appendChild(hop);
+    if (i < seen.length - 1) {
+      const arrow = document.createElement('span');
+      arrow.className = 'hop-arrow';
+      arrow.textContent = '→';
+      routeDiv.appendChild(arrow);
+    }
+  });
+
+  // Message table
+  const tbl = document.createElement('table');
+  tbl.innerHTML = `<thead><tr><th>Type</th><th>From</th><th>To</th><th>Amount</th><th>Currency</th><th>Status</th><th>Time</th></tr></thead>`;
+  const tb = document.createElement('tbody');
+  msgs.forEach(m => {
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td style="font-family:monospace;color:var(--accent)">${m.messageType}</td>
+      <td>${m.senderBic}</td><td>${m.receiverBic}</td>
+      <td>${Number(m.amount).toFixed(2)}</td><td>${m.currency}</td>
+      <td><span class="status-pill SETTLED">${m.status}</span></td>
+      <td style="color:var(--muted)">${new Date(m.sentAt).toLocaleTimeString()}</td>`;
+    tb.appendChild(tr);
+  });
+  tbl.appendChild(tb);
+  msgDiv.appendChild(tbl);
+}
+
+// ─── Nostro / Vostro ──────────────────────────────────────────────────────────
+async function loadNostro() {
+  const res = await fetch('/api/nostro');
+  const accounts = await res.json();
+  const tbody = document.getElementById('nostro-body');
+  tbody.innerHTML = '';
+  accounts.forEach(a => {
+    const tr = document.createElement('tr');
+    const low = a.balance < 100000;
+    tr.innerHTML = `
+      <td>${a.ownerBic}</td><td>${a.correspondentBic}</td><td>${a.currency}</td>
+      <td class="nostro-balance" style="color:${low ? 'var(--red)' : 'var(--green)'}">
+        ${Number(a.balance).toLocaleString(undefined, {minimumFractionDigits:2})}
+      </td>
+      <td><span class="status-pill ${a.accountType === 'NOSTRO' ? 'PENDING' : 'SETTLED'}">${a.accountType}</span></td>`;
+    tbody.appendChild(tr);
+  });
+}
+
+// ─── Arbitrage ────────────────────────────────────────────────────────────────
+async function loadArbitrage() {
+  const res = await fetch('/api/arbitrage');
+  const opps = await res.json();
+  const div = document.getElementById('arb-list');
+  if (opps.length === 0) {
+    div.innerHTML = '<p style="color:var(--muted);font-size:12px">No arbitrage opportunities detected yet. Rates update every 5s.</p>';
+    return;
+  }
+  div.innerHTML = '';
+  opps.forEach(o => {
+    const item = document.createElement('div');
+    item.className = 'arb-item';
+    item.innerHTML = `
+      <span class="arb-path">${o.path}</span>
+      <span style="color:var(--muted);font-size:11px">${new Date(o.detectedAt).toLocaleTimeString()}</span>
+      <span class="arb-profit">+${(parseFloat(o.profitPct) * 100).toFixed(4)}%</span>`;
+    div.appendChild(item);
+  });
+}
+
+// ─── Tabs ─────────────────────────────────────────────────────────────────────
+function switchTab(name) {
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('tab-' + name).classList.add('active');
+  event.target.classList.add('active');
+  if (name === 'arb') loadArbitrage();
+  if (name === 'nostro') loadNostro();
+  if (name === 'txn') loadTransactions();
+}
+
+// ─── Init ─────────────────────────────────────────────────────────────────────
+initChart();
+connectWS();
+loadTransactions();
+loadNostro();
+setInterval(loadTransactions, 6000);
+setInterval(loadArbitrage, 5000);
+</script>
+</body>
+</html>
